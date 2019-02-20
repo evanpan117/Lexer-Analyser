@@ -10,7 +10,7 @@
 
 #include <array>
 
-		// input 		[letter	digit	!	space	\n	{	}	;	+	-	*	/	%	=	>	<	.	,	(	)	
+		// input 		[letter	digit	!	space	\n	{	}	;	+	-	*	/	%	=	>	<	.	,	(	)
 		typedef enum Input {
 			LETTER,			// 0
 			DIGIT,			// 1
@@ -32,7 +32,7 @@
 			COMMA_SIGN,		// 17
 			OPEN_PAREN,		// 18
 			CLOSE_PAREN,		// 19
-			
+
 			OTHER,			// 20
 			S_END,			// 21
 			// Input number, put a new input above this line
@@ -105,10 +105,11 @@
 class FSA {
 	private:
 		// real table
-		//			0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	
+		//			0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21
 		// input 		[letter	digit	!	space	\n	{	}	;	+	-	*	/	%	=	>	<	.	,  	(	)	other	\0	]
 
-		int fsa_table[38][22] = {{1, 	2, 	3, 	0, 	0,	11,	12,	13,	27,	28,	29,	30,	14,	31,	32,	33,	24,	10,	34,	35,	36,	0},	// 0	start
+		int fsa_table[38][22] = {
+					{1, 	2, 	3, 	0, 	0,	11,	12,	13,	27,	28,	29,	30,	14,	31,	32,	33,	24,	10,	34,	35,	36,	0},	// 0	start
 					{1, 	1, 	7, 	7, 	7, 	7,	7, 	7, 	7, 	7, 	7, 	7, 	7, 	7, 	7, 	7, 	9, 	10,	34,	35,	36,	7}, 	// 1	string
 					{4,	2,	5,	5,	5,	5,	5,	5,	5,	5,	5,	5,	5,	5,	5,	5,	24,	5,	5,	5,	36,	5},	// 2 	number
 					{3,	3,	4,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3,	3},	// 3	in comment
@@ -147,7 +148,7 @@ class FSA {
 					{6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6},	//// 35	token )
 					{6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6},	//// 36	other
 					{6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6}};	// 37	found '\0'
-		
+
 				//	{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},	// 4	end_not_saving
 				//	{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},	// 5	end_integer
 				//	{6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	6,	9,	10,	6,	6,	6,	6},	// 7	end_string
@@ -168,10 +169,10 @@ class FSA {
 				//	{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},	// 23	token =<
 				//	{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},	// 34	token (
 				//	{0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0},	// 35	token )
-		
-		std::array <std::string, 5> keywords { "if", "else", "int", "float", "while" };		// temporary container, later using <map>
-		
-			
+
+		std::array <std::string, 5> keywords ={ "if", "else", "int", "float", "while" };		// temporary container, later using <map>
+
+
 		std::map<char, int> input_map;
 //		std::map<char, int>::iterator input_it;
 		std::multimap<int, std::string> lex_storage;
@@ -181,7 +182,7 @@ class FSA {
 
 	public:
 //		void make_table();   						// later : void make_table(const std::fsteram&);
-		
+
 		int get_input(const char&);					// categorize an input char to a number(enum)
 		int get_state(const int&, const int&);				// next state = table [current state] [input]
 		void state_check(const int&);					// check the state
@@ -266,7 +267,7 @@ int FSA::get_input (const char& c) {
 	return input_map[c];
 }
 
-int FSA::get_state (const int& state, const int& input) {
+int FSA::get_state (const int& state, const int& input) { //get next state
 	return fsa_table[state][input];
 }
 
@@ -277,12 +278,12 @@ void FSA::state_check(const int& state) {
 			break;
 		case 1:					//IDENTIFIER + KEYWORD
 			break;
-		case 2:					// Number, keep going		
+		case 2:					// Number, keep going
 			break;
 		case 3:					// In comment, keep going
 			break;
 		case 4:					// out comment (End_not_saving), clear all tmp_lex and cur_char
-			while (tmp_lex.size() != 0) {	
+			while (tmp_lex.size() != 0) {
 				tmp_lex.pop();
 			}
 			if(cur_char.front() == '!') {
@@ -294,7 +295,7 @@ void FSA::state_check(const int& state) {
 			add_lexeme(state);
 			break;
 		case 6:					// End, mostly Operator, Separator
-			add_lexeme(state);			
+			add_lexeme(state);
 			break;
 		case 7 :				// End_string, need keyword checking
 			add_lexeme(state);
@@ -375,7 +376,7 @@ void FSA::state_check(const int& state) {
 			add_lexeme(state);
 			break;
 		case 36:				// other
-			break;	
+			break;
 		case 37:				// end string '\0'
 			break;
 	}
@@ -402,7 +403,8 @@ void FSA::add_lexeme (const int& state) {
 void FSA::print() {
 	storage_it = lex_storage.begin();
 	while(storage_it != lex_storage.end()) {
-		if ( storage_it -> second[0] == '\0' || storage_it -> second[0] == '\n' || storage_it -> second[0] == ' ') {storage_it++;}
+		if ( storage_it -> second[0] == '\0' || storage_it -> second[0] == '\n' || storage_it -> second[0] == ' '){
+			storage_it++;}
 		if ( storage_it -> first == 5 ) {
 			std::cout << " Integer : " << storage_it->second << std::endl;
 		} else if ( storage_it -> first == 8 ) {
@@ -440,6 +442,7 @@ bool FSA::is_keywords() {
 // else if (state == Grab_Stay) then save it and keep check the state
 
 int main (int argc, char** argv) {
+
 	if (argc != 2) {
 		std::cout << "Usage: [lexer] [target file]" << std::endl;
 		return 0;
@@ -447,9 +450,9 @@ int main (int argc, char** argv) {
 
 	std::fstream _file;
 	_file.open(argv[1]);
-	
+
 	if (_file.is_open()) {
-		
+
 		FSA fsa;
 		char c;
 		int state = 0;
@@ -459,19 +462,19 @@ int main (int argc, char** argv) {
 			input = fsa.get_input(c);		//from character to input(size_t)
 			state = fsa.get_state(state, input);	//to the next state
 			fsa.state_check(state);			//check the state is final or not, and save the lexeme or not
-			
+
 			if (state == 0) {
 				state = fsa.get_state(state, input);
-			}	
+			}
 		}
-		
+
 		fsa.print();					//print storage
 
 	} else {
 		std::cout << "cannot open file" << std::endl;
 	}
 
-	
+
 	_file.close();
 	return 0;
 }
