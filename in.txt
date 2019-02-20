@@ -1,0 +1,11 @@
+! aksk a s !
+if{ int asj, }
+Int apple + pair = tree
+int main ()
+{
+  std::unordered_multimap<std::string,std::string> myumm = {
+    {"apple","red"},
+    {"apple","green"},
+    {"orange","orange"},
+    {"strawberry","red"}
+  };
