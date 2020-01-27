@@ -1,7 +1,3 @@
-// CPSC323 assignment 1
-// Yong Kim 888250156
-// - build a lexer
-
 #include <iostream>
 #include <fstream>
 #include <string>
